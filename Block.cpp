@@ -1,14 +1,23 @@
 #include "Block.h"
 
-Block::Block(int index, std::string data, std::string time_stamp, std::string previous_hash) : index_(index), data_(data), time_stamp_(time_stamp), previous_hash_(previous_hash)
+Block::Block(int index, std::string data, std::string time_stamp, std::string previous_hash) 
 {
-	this->hash_ = this->calculate_hash();
+	block_info_.index_ = index;
+	block_info_.data_ = data;
+	block_info_.time_stamp_ = time_stamp;
+	block_info_.previous_hash_ = previous_hash;
+	block_info_.hash_ = this->calculate_hash();
+}
+
+Block::Block()
+{	
 }
 
 std::string Block::calculate_hash()
 {
+
 	try {
-		std::string hash_data = std::to_string(index_) + previous_hash_ + time_stamp_ + data_;
+		std::string hash_data = std::to_string(block_info_.index_) + block_info_.previous_hash_ + block_info_.time_stamp_ + block_info_.data_;
 		CryptoPP::SHA256 hash;
 		std::vector<CryptoPP::byte> digest(CryptoPP::SHA256::DIGESTSIZE);
 		hash.CalculateDigest(digest.data(), (CryptoPP::byte*)hash_data.c_str(), hash_data.size());
@@ -27,3 +36,19 @@ std::string Block::calculate_hash()
 		return "Crypto++ library exception is " + exception_error;
 	}
 }
+
+Block::BlockInfo Block::get_block_info()
+{
+	return block_info_;
+}
+
+void Block::set_previous_hash(std::string previous_hash)
+{
+	block_info_.previous_hash_ = previous_hash;
+}
+
+void Block::set_hash(std::string hash)
+{
+	block_info_.hash_ = hash;
+}
+

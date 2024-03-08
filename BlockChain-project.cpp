@@ -1,37 +1,39 @@
-#include <iostream>
-#include <cryptopp/sha.h>
-#include <cryptopp/hex.h>
-#include <cryptopp/filters.h>
-#include <string>
+#include "Block.h"
+#include "BlockChain.h"
 
-using namespace CryptoPP;
+#include <iostream>
+#include <chrono>
+
+std::string get_current_time_stamp() {
+    
+    std::time_t currentTime;
+    std::time(&currentTime);
+
+    // Convert the current time to a struct tm
+    std::tm timeInfo;
+    localtime_s(&timeInfo, &currentTime);
+
+    // Format the time into a string
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeInfo);
+
+    return std::string(buffer);
+}
 
 int main() {
-    try {
-        // Input data to be hashed
-        std::string data = "Hello, World!";
+    std::string time_stamp = get_current_time_stamp();
+    BlockChain block_chain(time_stamp,"testing");
 
-        // Hash object with SHA-256 algorithm
-        SHA256 hash;
+    Block second_block(1, "testing again", get_current_time_stamp());
+    Block third_block(2, "testing again", get_current_time_stamp());
 
-        // Hashing process
-        byte digest[SHA256::DIGESTSIZE];
-        hash.CalculateDigest(digest, (byte*)data.c_str(), data.length());
+    block_chain.add_block(second_block);
+    block_chain.add_block(third_block);
 
-        // Convert the digest to a hex string representation
-        HexEncoder encoder;
-        std::string encoded;    
-        encoder.Attach(new StringSink(encoded));
-        encoder.Put(digest, sizeof(digest));
-        encoder.MessageEnd();
+    if(block_chain.is_chain_valid())
+        block_chain.print_chain();
 
-        // Output the hashed data
-        std::cout << "SHA-256 hash of '" << data << "' is: " << encoded << std::endl;
-    }
-    catch (const Exception& ex) {
-        std::cerr << "Crypto++ library exception: " << ex.what() << std::endl;
-        return 1;
-    }
+
     return 0;
 }
 
