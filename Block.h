@@ -13,10 +13,11 @@ class Block
 public:
 
 	Block(int index, std::string data, std::string time_stamp, std::string previous_hash = "");
+	Block();
 	std::string calculate_hash();
 
 private:
-	int index_;
+	int index_ = 0;
 	std::string data_;
 	std::string time_stamp_;
 	std::string previous_hash_;
