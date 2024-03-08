@@ -39,7 +39,15 @@ TEST_F(BlockChain_Fixture, Genesis_block_test)
 }
 TEST_F(BlockChain_Fixture, add_block_test)
 {
-	Block block(0, "add test ", get_current_time_stamp());
+	Block block(1, "add test ", get_current_time_stamp());
 	block_chain_->add_block(block);
 	EXPECT_EQ(2, block_chain_->get_block_chain_size());
+}
+TEST_F(BlockChain_Fixture, get_previos_block_hash_test)
+{
+	std::string actual_previous_hash = block_chain_->get_latest_block().calculate_hash();
+	block_chain_->add_block(Block(2, "another test", get_current_time_stamp()));
+	std::string expected_previous_hash =  block_chain_->get_latest_block().get_block_info().previous_hash_;
+
+	EXPECT_EQ(expected_previous_hash,actual_previous_hash);
 }
