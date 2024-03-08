@@ -10,7 +10,7 @@ Block BlockChain::create_genesis_block(std::string time_stamp, std::string data)
 	return Block{0,data, time_stamp};
 }
 
-Block BlockChain::get_latest_block()
+ Block& BlockChain::get_latest_block()
 {
 	return chain[chain.size()-1];
 }
@@ -50,7 +50,7 @@ bool BlockChain::is_chain_valid()
 void BlockChain::add_block(Block block)
 {
 	std::string previous_hash = get_latest_block().get_block_info().hash_;
-	block.set_previous_hash(previous_hash);
-	block.set_hash(block.calculate_hash());
+	block.get_block_info().previous_hash_ = previous_hash;
+	block.get_block_info().hash_ = block.calculate_hash();
 	chain.push_back(block);
 }

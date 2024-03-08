@@ -23,9 +23,8 @@ public:
 		std::string previous_hash_;
 		std::string hash_;
 	};
-	BlockInfo get_block_info();
-	void set_previous_hash(std::string previous_hash);
-	void set_hash(std::string hash);
+	BlockInfo& get_block_info();
+
 
 private:
 	BlockInfo block_info_;

@@ -6,7 +6,7 @@ class BlockChain
 public: 
 	BlockChain(std::string time_stamp, std::string data);
 	void add_block(Block block);
-	Block get_latest_block();	
+	Block& get_latest_block();	
 	void print_chain();
 	bool is_chain_valid();
 

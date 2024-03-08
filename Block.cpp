@@ -37,18 +37,10 @@ std::string Block::calculate_hash()
 	}
 }
 
-Block::BlockInfo Block::get_block_info()
+Block::BlockInfo& Block::get_block_info()
 {
 	return block_info_;
 }
 
-void Block::set_previous_hash(std::string previous_hash)
-{
-	block_info_.previous_hash_ = previous_hash;
-}
 
-void Block::set_hash(std::string hash)
-{
-	block_info_.hash_ = hash;
-}
 
