@@ -51,3 +51,14 @@ TEST_F(BlockChain_Fixture, get_previos_block_hash_test)
 
 	EXPECT_EQ(expected_previous_hash,actual_previous_hash);
 }
+TEST_F(BlockChain_Fixture, is_block_chain_valid_test)
+{
+	
+	block_chain_->add_block(Block(3, "another test", get_current_time_stamp()));
+	bool should_valid = block_chain_->is_chain_valid();
+	block_chain_->get_latest_block().get_block_info().data_ = "something else";
+	bool should_not_be_valid = block_chain_->is_chain_valid();
+	EXPECT_NE(should_not_be_valid, should_valid);
+
+	
+}
