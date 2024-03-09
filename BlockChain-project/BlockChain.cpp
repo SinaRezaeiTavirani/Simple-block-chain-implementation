@@ -37,9 +37,9 @@ bool BlockChain::is_chain_valid()
 	{
 		auto current_block = chain_[i];
 		auto previous_block = chain_[i - 1];
+		auto  curr_hash = current_block.get_block_info().hash_;
+		auto curr_calculated_hash = current_block.calculate_hash();
 
-		if (current_block.get_block_info().hash_ != current_block.calculate_hash())
-			return false;
 		if (current_block.get_block_info().previous_hash_ != previous_block.get_block_info().hash_)
 			return false;
 	}
@@ -57,6 +57,6 @@ void BlockChain::add_block(Block block)
 {
 	std::string previous_hash = get_latest_block().get_block_info().hash_;
 	block.get_block_info().previous_hash_ = previous_hash;
-	block.get_block_info().hash_ = block.calculate_hash();
+	block.get_block_info().hash_ = block.mine_block(5);
 	chain_.push_back(block);
 }

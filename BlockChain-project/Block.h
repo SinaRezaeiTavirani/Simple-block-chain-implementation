@@ -7,6 +7,7 @@
 #include <string>
 //#include <memory>	
 #include <vector>
+#include<iostream>
 
 class Block
 {
@@ -15,6 +16,8 @@ public:
 	Block();
 
 	std::string calculate_hash();
+	std::string mine_block(int difficulty);
+
 
 	struct BlockInfo {
 		int index_ = 0;
@@ -22,6 +25,7 @@ public:
 		std::string time_stamp_;
 		std::string previous_hash_;
 		std::string hash_;
+		long long nonce_;
 	};
 	BlockInfo& get_block_info();
 
